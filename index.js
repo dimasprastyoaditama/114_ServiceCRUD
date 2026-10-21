@@ -45,3 +45,14 @@ app.post('/biodata', (req, res) => {
         .then(result => res.json(result.rows[0]))
         .catch(err => console.error(err));
 });
+
+// PUT (Uppdate Data)
+app.put('/biodata/:id', (req, res) => {
+    const { id } = req.params;
+    const { nama, nim, kelas } = req.body;
+
+    pool.query(
+        'UPDATE biodata SET nama = $1, nim = $2, kelas = $3 WHERE id = $4 RETURNING *',
+        [nama, nim, kelas, id]
+    )
+});
